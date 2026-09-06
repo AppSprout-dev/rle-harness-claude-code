@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "rle-harness-template"
+name = "rle-harness-claude-code"
 version = "0.1.0"
-description = "Template for an RLE (RimWorld Learning Environment) harness plugin"
+description = "Claude Code (Anthropic) as an RLE harness: a coding agent manages a RimWorld colony over MCP"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.14"
@@ -13,18 +13,18 @@ requires-python = ">=3.14"
 #   uv pip install "rimworld-learning-environment[mcp] @ git+https://github.com/AppSprout-dev/RLE"
 dependencies = [
     "rimworld-learning-environment>=0.4.1",
+    "mcp>=2.1",
     "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-asyncio>=0.24", "ruff>=0.1.0", "mypy>=1.0"]
 
-# This is the whole integration: RLE discovers the plugin through this group.
 [project.entry-points."rle.harnesses"]
-template = "rle_harness_template:PLUGIN"
+claude-code = "rle_harness_claude_code:PLUGIN"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/rle_harness_template"]
+packages = ["src/rle_harness_claude_code"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -37,9 +37,9 @@ target-version = "py314"
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["rle_harness_claude_code"]
+
 [tool.mypy]
 python_version = "3.14"
 strict = true
-
-[tool.ruff.lint.isort]
-known-first-party = ["rle_harness_template"]
