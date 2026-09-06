@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rle-harness-template"
+version = "0.1.0"
+description = "Template for an RLE (RimWorld Learning Environment) harness plugin"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.14"
+# RLE core is not on PyPI yet. Install it first:
+#   uv pip install "rimworld-learning-environment[mcp] @ git+https://github.com/AppSprout-dev/RLE"
+dependencies = [
+    "rimworld-learning-environment>=0.4.1",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-asyncio>=0.24", "ruff>=0.1.0", "mypy>=1.0"]
+
+# This is the whole integration: RLE discovers the plugin through this group.
+[project.entry-points."rle.harnesses"]
+template = "rle_harness_template:PLUGIN"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rle_harness_template"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["rle_harness_template"]
